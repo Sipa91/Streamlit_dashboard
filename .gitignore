@@ -133,3 +133,10 @@ dmypy.json
 
 .DS_Store
 
+#data and model shouldnt be pushed to github
+training_checkpoints/
+data/*.csv.gz
+data/*.csv
+data/*.tsv
+data/*/*
+data/*.tar
