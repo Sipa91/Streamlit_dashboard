@@ -68,34 +68,24 @@ def create_xtest_features(df):
 
 def create_xtest_NLP(df):
     df_NLP = add_processing_columns(df) #ad_tokens, ad_cleaned
-    vect_ltf = pickle.load(open('/Users/sina/neuefische/datascience-Capstone_Job_Ads/models/vect_ltf.sav', 'rb'))
+    vect_ltf = joblib.load('models/vect_ltf.pkl')
     xtest_NLP = vect_ltf.transform(df_NLP['ad_cleaned'])
     return xtest_NLP
 
-'''def create_xtest_final(df, pred1, pred2, pred3, pred4):
-    X_agg = df
-    X_agg["LogReg"] = pred1[:, 1]
-    X_agg["XGB"] = pred2[:, 1]
-    X_agg["RF"] = pred3[:, 1]
-    X_agg["LogReg_NLP"] = pred4[:, 1]
-    X_final = drop_columns(X_agg, ["description"])
-    return X_final'''
 
-def create_xtest_final(df, pred1, pred2, pred3, pred4):
+def create_xtest_final(df, pred1, pred2, pred4): #may add pred3
     df_copy = df.copy()
     df_copy["LogReg"] = pred1[:, 1]
     df_copy["XGB"] = pred2[:, 1]
-    df_copy["RF"] = pred4[:, 1]
+    #df_copy["RF"] = pred3[:, 1]
     df_copy["LogReg_NLP"] = pred4[:, 1]
-    X_final = df_copy[["LogReg", "XGB", "RF", "LogReg_NLP"]]
+    X_final = df_copy[["LogReg", "XGB", "LogReg_NLP"]] #may add "RF"
     return X_final
 
 def ad_classification (val, dictionary):
     for key, value in dictionary.items():
         if val == value:
             return key
-
-
 
 # Creation of Page
 def page():
@@ -163,20 +153,20 @@ def page():
             xtest_NLP = create_xtest_NLP(df)
             
             # Load trained models
-            logreg = pickle.load(open('/Users/sina/neuefische/datascience-Capstone_Job_Ads/models/lr.sav', 'rb'))
-            xgboost = pickle.load(open('/Users/sina/neuefische/datascience-Capstone_Job_Ads/models/xgboost.sav', 'rb'))
-            rforest = pickle.load(open('/Users/sina/neuefische/datascience-Capstone_Job_Ads/models/rforest.sav', 'rb'))
-            logreg_NLP = pickle.load(open('/Users/sina/neuefische/datascience-Capstone_Job_Ads/models/logreg_NLP.sav', 'rb'))
-            final_model = pickle.load(open('/Users/sina/neuefische/datascience-Capstone_Job_Ads/models/final_model.sav', 'rb'))
+            logreg = joblib.load('models/lr.pkl')
+            xgboost = joblib.load('models/xgboost.pkl')
+            #rforest = pickle.load(open('/Users/sina/neuefische/datascience-Capstone_Job_Ads/models/rforest.sav', 'rb'))
+            logreg_NLP = joblib.load('models/logreg_NLP.pkl')
+            final_model = joblib.load('models/final_model.pkl')
 
             # Make predictions with thee different pre-trained models
             pred_logreg = logreg.predict_proba(xtest_features)
             pred_xg = xgboost.predict_proba(xtest_features)
-            pred_rf = rforest.predict_proba(xtest_NLP)
+            #pred_rf = rforest.predict_proba(xtest_NLP)
             pred_logreg_NLP = logreg_NLP.predict_proba(xtest_NLP)
 
             # Create new Dataframe out of different predictions
-            X_final = create_xtest_final(df, pred_logreg, pred_xg, pred_rf, pred_logreg_NLP)
+            X_final = create_xtest_final(df, pred_logreg, pred_xg, pred_logreg_NLP) # may add pred_rf
 
             # Make final prediction with aggegated model
             pred_final = final_model.predict(X_final)
@@ -191,7 +181,7 @@ def page():
            
             
            
-            #predictor = prediction_model(models/...) --> Model muss in einem Model folder abgespeichert sein
+            
             
 
 
