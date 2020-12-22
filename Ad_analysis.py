@@ -11,7 +11,7 @@ import spacy
 from bs4 import BeautifulSoup
 from wordcloud import WordCloud, STOPWORDS
 from PIL import Image
-import joblib
+import pickle
 from sklearn.feature_extraction.text import TfidfVectorizer
 from wordlists import workingtime_words, feminine_coded_words, masculine_coded_words, salary_words, workingtime_words, family_words, homeoffice_words, safety_words, health_words, travel_words
 from dataprep import strip_html, remove_between_square_brackets, denoise_text, remove_punctuation, clean_ad, tokanize, create_string, make_wordcloud, find_workingtime, find_family_benefits, find_homeoffice, find_safety_words, find_health_words, find_and_count_coded_words, add_genderword_columns, find_salary, add_salary_columns, add_workingtime_columns, add_family_columns, add_homeoffice_columns, add_safety_columns, add_health_column, add_target, categorize_target, add_processing_columns, ad_length, find_travel_words, add_traveling_columns, drop_columns, add_spacy_columns, add_lemmatized_unpacked_column
@@ -68,18 +68,26 @@ def create_xtest_features(df):
 
 def create_xtest_NLP(df):
     df_NLP = add_processing_columns(df) #ad_tokens, ad_cleaned
-    vect_ltf = joblib.load('models/vect_ltf.pkl')
+    vect_ltf = pickle.load(open('/Users/sina/neuefische/datascience-Capstone_Job_Ads/models/vect_ltf.sav', 'rb'))
     xtest_NLP = vect_ltf.transform(df_NLP['ad_cleaned'])
     return xtest_NLP
 
+'''def create_xtest_final(df, pred1, pred2, pred3, pred4):
+    X_agg = df
+    X_agg["LogReg"] = pred1[:, 1]
+    X_agg["XGB"] = pred2[:, 1]
+    X_agg["RF"] = pred3[:, 1]
+    X_agg["LogReg_NLP"] = pred4[:, 1]
+    X_final = drop_columns(X_agg, ["description"])
+    return X_final'''
 
-def create_xtest_final(df, pred1, pred2, pred4): #may add pred3
+def create_xtest_final(df, pred1, pred2, pred3, pred4):
     df_copy = df.copy()
     df_copy["LogReg"] = pred1[:, 1]
     df_copy["XGB"] = pred2[:, 1]
-    #df_copy["RF"] = pred3[:, 1]
+    df_copy["RF"] = pred3[:, 1]
     df_copy["LogReg_NLP"] = pred4[:, 1]
-    X_final = df_copy[["LogReg", "XGB", "LogReg_NLP"]] #may add "RF"
+    X_final = df_copy[["LogReg", "XGB", "RF", "LogReg_NLP"]]
     return X_final
 
 def ad_classification (val, dictionary):
@@ -87,11 +95,15 @@ def ad_classification (val, dictionary):
         if val == value:
             return key
 
+
+
 # Creation of Page
 def page():
     st.title('Job Ad Analysis')
     # Build input text area
-    message = st.text_area("On this page you can try out our analyzer algorithm. Copy and paste a german job ad you are interested in into the space below and see what happens.", height = 400, value = "Junior Talent Acquisition Manager (m/w/d). Unterstützung unserer HR Abteilung beim kompletten Bewerbungsmanagements u.a. Übernahme der Korrespondenz mit Bewerbern den Fachabteilungen und Terminkoordination, Sourcing nach geeigneten Kandidaten auf LinkedIn, Selbstständige Übernahme der Koordination von On- und Offboarding Prozessen, Durchführung von Employer Branding-Maßnahmen und anderen strategischen HR-Projekten. Job Anforderungen: Du haste ein abgeschlossenes Studium der Betriebswirtschaftslehre, Psychologie, Personalmanagement oder eines vergleichbaren Studiengangs, Idealerweise bringst du bereits erste Erfahrung im Recruiting oder einer anderen HR Funktion mit, Du sprichst fließend deutsch und Englisch, Du hast Spaß am Umgang mit Menschen und bist ein Organisationstalent. Benefits: Abwechslungsreiche Aufgaben in einem dynamischen internationalen Team, Teamevents, Sommerfest Weihnachtsfeier und vieles mehr, Kostenloses Müsli Obst und Süßigkeiten sowie Getränke, Vergünstigte Fitnessstudio Mitgliedschaft, Vergünstigungen bei einer Reihe von Unternehmen , Unbefristete Festanstellung, Flexibles Arbeiten durch Home-Office Möglichkeit, Zentrale Büros mit guter öffentlicher Anbindung")
+    message = st.text_area("On this page you can try out our analyzer algorithm. Copy and paste a german job ad you are interested in into the space below and see what happens.", height = 180, 
+    value = "Junior Recruiter (m/w/d)  Wir sind ein erfolgsorientiertes Unternehmen und suchen für unser Team zum nächstmöglichen Zeitpunkt engagierte und leistungsfähige Unterstützung. Das solltest Du mitbringen: Erfolgreich abgeschlossene Berufsausbildung oder Studium, idealerweise erste praktische Erfahrung im Recruiting oder Personalwesen, Teamfähigkeit sowie strukturierte Arbeitsweise und Kommunikationsfähigkeit.  Benefits: unbefristeter Arbeitsvertrag, Kita Plätze")
+
     # Build select options on what to analyze
     activities = ["Find gender-coded words", "Find female-oriented benefits", "Predict womens´ intent to apply"]
     choice = st.selectbox("Choose what you want to find out", activities)
@@ -153,20 +165,20 @@ def page():
             xtest_NLP = create_xtest_NLP(df)
             
             # Load trained models
-            logreg = joblib.load('models/lr.pkl')
-            xgboost = joblib.load('models/xgboost.pkl')
-            #rforest = pickle.load(open('/Users/sina/neuefische/datascience-Capstone_Job_Ads/models/rforest.sav', 'rb'))
-            logreg_NLP = joblib.load('models/logreg_NLP.pkl')
-            final_model = joblib.load('models/final_model.pkl')
+            logreg = pickle.load(open('/Users/sina/neuefische/datascience-Capstone_Job_Ads/models/lr.sav', 'rb'))
+            xgboost = pickle.load(open('/Users/sina/neuefische/datascience-Capstone_Job_Ads/models/xgboost.sav', 'rb'))
+            rforest = pickle.load(open('/Users/sina/neuefische/datascience-Capstone_Job_Ads/models/rforest.sav', 'rb'))
+            logreg_NLP = pickle.load(open('/Users/sina/neuefische/datascience-Capstone_Job_Ads/models/logreg_NLP.sav', 'rb'))
+            final_model = pickle.load(open('/Users/sina/neuefische/datascience-Capstone_Job_Ads/models/final_model.sav', 'rb'))
 
             # Make predictions with thee different pre-trained models
             pred_logreg = logreg.predict_proba(xtest_features)
             pred_xg = xgboost.predict_proba(xtest_features)
-            #pred_rf = rforest.predict_proba(xtest_NLP)
+            pred_rf = rforest.predict_proba(xtest_NLP)
             pred_logreg_NLP = logreg_NLP.predict_proba(xtest_NLP)
 
             # Create new Dataframe out of different predictions
-            X_final = create_xtest_final(df, pred_logreg, pred_xg, pred_logreg_NLP) # may add pred_rf
+            X_final = create_xtest_final(df, pred_logreg, pred_xg, pred_rf, pred_logreg_NLP)
 
             # Make final prediction with aggegated model
             pred_final = final_model.predict(X_final)
@@ -181,7 +193,7 @@ def page():
            
             
            
-            
+            #predictor = prediction_model(models/...) --> Model muss in einem Model folder abgespeichert sein
             
 
 
