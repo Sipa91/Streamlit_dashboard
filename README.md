@@ -9,32 +9,22 @@ Thus, companies should focus on attracting women to work for them not only in or
 Literature suggests, that amongst other things, job advertisements influence the probability of women applying or not. 
     
 Inspired by the existing literature and [TU Munich´s Gender Decoder](https://genderdecoder.wi.tum.de), the idea of this project arised:
-We created a model for predicting whether a german job ad is appealing to women or not - with different job ad features as indicator of appealingness and 
+We created a model for predicting whether a German job ad is appealing to women or not - with different job ad features as indicator of appealingness and 
 appealingness again as indicator of womens´ intent to apply.
 
 We have optimized some scripts for our interactive WebApp. We created a separate repository for this, which Streamlit.io accesses. 
 
-# Data description and preprocessing
-![MORE](Images/Data.png)
- - Dataset with **11047 job ads** and additional information mentioned above.  
-   You can find the detailed description of our dataset [here](#description-of-dataset).
- - Description in html format were cleaned and tokenized, mainly using BeautifulSoup and spaCy
- - **Target:**  
-    We defined a job ad to be appealing if more women than expected (based on female ratio in discipline) applied
- ![MORE](Images/Target.png)
- - **Features:**  
-  We extracted the features we are interested in from the text by searching specific words within the job ad
-
 # Modeling
 - We trained two different models (Logistic Regression & XGBoost) on the features we extracted from the text.
-- Furthermore, we trained two different models (Random Forest & Logistic Regression) on all lemmatized and (by TfidfVectorizer from Scikit-learn) vectorzied words.
+- Furthermore, we trained two different models (Random Forest & Logistic Regression) on all lemmatized and (by TfidfVectorizer from Scikit-learn) vectorized words.
 - Finally, we used the predictions of the four different models as features for training our final model, a logistic regression.
 - Our final model´s predictions are in 4 out of 5 cases correct.
+You can find more information about data preprocessing and modeling [here](https://github.com/PetraPi/datascience-Capstone_Job_Ads).
 
 # Webapp & Deployment
-We used Streamlit to create the Webapp. Within this application you can copy and paste a self chosen german job ad 
+We used Streamlit to create this Webapp. Within this application you can copy and paste a self chosen German job ad 
 and see which female versus male words and which female-oriented benefits are included, as well as your job ad is rather appealing to women or not.  
-Furthermore you can find more Insights of our project there.
+
 
 # Acknowledgement
 We would like to thank Prof. Dr. Claudia Peus, Regina Dutz and the entire research team at TU Munich for providing the gender word lists and the source code of the decoder.     
@@ -63,3 +53,4 @@ pip install langdetect
 pip install spacy
 python -m spacy download de_core_news_sm
 ```
+
