@@ -15,15 +15,15 @@ appealingness again as indicator of womens´ intent to apply.
 We have optimized some scripts for our interactive WebApp. We created a separate repository for this, which Streamlit.io accesses. 
 
 # Modeling
-- We trained two different models (Logistic Regression & XGBoost) on the features we extracted from the text.
-- Furthermore, we trained two different models (Random Forest & Logistic Regression) on all lemmatized and (by TfidfVectorizer from Scikit-learn) vectorized words.
-- Finally, we used the predictions of the four different models as features for training our final model, a logistic regression.
-- Our final model´s predictions are in 4 out of 5 cases correct.
+- We trained and tested several models (see README file and notebooks in modeling folder for more details)
+- Using the features (e.g. benefits, gender words) we extracted from the ad descriptions we trained several classification models. In the end we chose the best model in terms of accuracy (XGBoost).
+- Furthermore, we trained different NLP models on the whole lemmatized and (by TfidfVectorizer from Scikit-learn) vectorized job ads. Again we chose the best model in terms of accuracy (logistic regression)
+- Finally, we used the predictions of the the models as features for training our final model, a logistic regression.
+- Our final model´s predictions has an accuracy of above 70%.
 You can find more information about data preprocessing and modeling [here](https://github.com/PetraPi/datascience-Capstone_Job_Ads).
 
 # Webapp & Deployment
-We used Streamlit to create this Webapp. Within this application you can copy and paste a self chosen German job ad 
-and see which female versus male words and which female-oriented benefits are included, as well as your job ad is rather appealing to women or not.  
+We used Streamlit to create this Webapp. Within this application you can copy and paste a self chosen German job ad and see which female versus male words and which female-oriented benefits are included, as well as your job ad is rather appealing to women or not.  
 
 
 # Acknowledgement
@@ -37,8 +37,6 @@ We would also like to point out that the German-language was based on the Englis
 conda create --name jobads python=3.7
 conda install -n jobads ipytest==6.1.1
 conda install -n jobads ipython
-conda install -n jobads jupyterlab
-conda install -n jobads seaborn
 conda install -n jobads scikit-learn
 conda install -n jobads tensorflow
 conda install -n jobads -c conda-forge dash
