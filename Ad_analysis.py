@@ -3,7 +3,6 @@ import streamlit as st
 import matplotlib.pyplot as plt
 import matplotlib
 import pandas as pd
-#matplotlib.use('Agg')
 import re, string, unicodedata
 import nltk
 from nltk.corpus import stopwords
@@ -68,26 +67,15 @@ def create_xtest_features(df):
 
 def create_xtest_NLP(df):
     df_NLP = add_processing_columns(df) #ad_tokens, ad_cleaned
-    vect_ltf = pickle.load(open('/Users/sina/neuefische/datascience-Capstone_Job_Ads/models/vect_ltf.sav', 'rb'))
+    vect_ltf = joblib.load('/models/vect_ltf.pkl')
     xtest_NLP = vect_ltf.transform(df_NLP['ad_cleaned'])
     return xtest_NLP
 
-'''def create_xtest_final(df, pred1, pred2, pred3, pred4):
-    X_agg = df
-    X_agg["LogReg"] = pred1[:, 1]
-    X_agg["XGB"] = pred2[:, 1]
-    X_agg["RF"] = pred3[:, 1]
-    X_agg["LogReg_NLP"] = pred4[:, 1]
-    X_final = drop_columns(X_agg, ["description"])
-    return X_final'''
-
-def create_xtest_final(df, pred1, pred2, pred3, pred4):
+def create_xtest_final(df, pred1, pred2):
     df_copy = df.copy()
-    df_copy["LogReg"] = pred1[:, 1]
-    df_copy["XGB"] = pred2[:, 1]
-    df_copy["RF"] = pred3[:, 1]
-    df_copy["LogReg_NLP"] = pred4[:, 1]
-    X_final = df_copy[["LogReg", "XGB", "RF", "LogReg_NLP"]]
+    df_copy["XGB"] = pred1[:, 1]
+    df_copy["LogReg_NLP"] = pred2[:, 1]
+    X_final = df_copy[["XGB", "LogReg_NLP"]]
     return X_final
 
 def ad_classification (val, dictionary):
@@ -95,13 +83,11 @@ def ad_classification (val, dictionary):
         if val == value:
             return key
 
-
-
 # Creation of Page
 def page():
     st.title('Job Ad Analysis')
     # Build input text area
-    message = st.text_area("On this page you can try out our analyzer algorithm. Copy and paste a german job ad you are interested in into the space below and see what happens.", height = 180, 
+    message = st.text_area("On this page you can try out our analyzer algorithm. Copy and paste a German job ad you are interested in into the space below and see what happens.", height = 180, 
     value = "Junior Recruiter (m/w/d)  Wir sind ein erfolgsorientiertes Unternehmen und suchen für unser Team zum nächstmöglichen Zeitpunkt engagierte und leistungsfähige Unterstützung. Das solltest Du mitbringen: Erfolgreich abgeschlossene Berufsausbildung oder Studium, idealerweise erste praktische Erfahrung im Recruiting oder Personalwesen, Teamfähigkeit sowie strukturierte Arbeitsweise und Kommunikationsfähigkeit.  Benefits: unbefristeter Arbeitsvertrag, Kita Plätze")
 
     # Build select options on what to analyze
@@ -165,20 +151,18 @@ def page():
             xtest_NLP = create_xtest_NLP(df)
             
             # Load trained models
-            logreg = pickle.load(open('/Users/sina/neuefische/datascience-Capstone_Job_Ads/models/lr.sav', 'rb'))
-            xgboost = pickle.load(open('/Users/sina/neuefische/datascience-Capstone_Job_Ads/models/xgboost.sav', 'rb'))
-            rforest = pickle.load(open('/Users/sina/neuefische/datascience-Capstone_Job_Ads/models/rforest.sav', 'rb'))
-            logreg_NLP = pickle.load(open('/Users/sina/neuefische/datascience-Capstone_Job_Ads/models/logreg_NLP.sav', 'rb'))
-            final_model = pickle.load(open('/Users/sina/neuefische/datascience-Capstone_Job_Ads/models/final_model.sav', 'rb'))
+             # Load trained models
+            xgboost = joblib.load('/models/xgboost.pkl')
+            logreg_NLP = joblib.load('/models/logreg_NLP.pkl')
+            final_model = joblib.load('/final_model.pkl')
+
 
             # Make predictions with thee different pre-trained models
-            pred_logreg = logreg.predict_proba(xtest_features)
             pred_xg = xgboost.predict_proba(xtest_features)
-            pred_rf = rforest.predict_proba(xtest_NLP)
             pred_logreg_NLP = logreg_NLP.predict_proba(xtest_NLP)
 
             # Create new Dataframe out of different predictions
-            X_final = create_xtest_final(df, pred_logreg, pred_xg, pred_rf, pred_logreg_NLP)
+            X_final = create_xtest_final(df, pred_xg, pred_logreg_NLP)
 
             # Make final prediction with aggegated model
             pred_final = final_model.predict(X_final)
@@ -188,12 +172,11 @@ def page():
             final_classification = ad_classification(pred_final, prediction_labels)
             st.success(f"Your job ad is rather {final_classification} to women.")
 
-            st.write("Please keep in mind that this prediction is in 4 out of 5 cases correct.")
+            st.write("Please keep in mind that this prediction is in more than 3.5 out of 5 cases correct.")
            
            
             
-           
-            #predictor = prediction_model(models/...) --> Model muss in einem Model folder abgespeichert sein
+    
             
 
 
