@@ -1,9 +1,8 @@
 # Underpage4
 import streamlit as st
-#import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt
 #import matplotlib
-from matplotlib.backends.backend_agg import RendererAgg
-_lock = RendererAgg.lock
+#from matplotlib.backends.backend_agg import RendererAgg _lock = RendererAgg.lock
 import pandas as pd
 import re, string, unicodedata
 import nltk
@@ -123,11 +122,10 @@ def page():
             text = clean_ad(message)
             wordcloud = WordCloud(stopwords = german_stop_words, background_color="white", width=500, height=250, max_words = 50, min_word_length = 3, relative_scaling = 1, collocations = False).generate(text)
             # Display the generated image:
-            with _lock:
-                plt.imshow(wordcloud, interpolation='bilinear')
-                plt.axis("off")
-                plt.show()
-                st.pyplot()
+            plt.imshow(wordcloud, interpolation='bilinear')
+            plt.axis("off")
+            plt.show()
+            st.pyplot()
 
           
 
