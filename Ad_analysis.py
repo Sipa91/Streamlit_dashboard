@@ -153,7 +153,7 @@ def page():
             
             # Load trained models
             # Load trained models
-            #xgboost = joblib.load('models/xgboost.pkl')
+            xgboost = joblib.load('models/xgboost.pkl')
             logreg_NLP = joblib.load('models/logreg_NLP.pkl')
             final_model = joblib.load('models/final_model.pkl')
 
