@@ -36,12 +36,12 @@ def page():
     """)
     col1, col2 = st.beta_columns(2)
     with col1:
-        st.markdown("**Number of job ads within male-dominated disciplines categorized by appealingness**")
+        st.markdown("**Male-dominated disciplines**")
         image = Image.open('Images/appealingness_dis_male.png')
         st.image(image, use_column_width=True, output_format='png')
 
     with col2:
-        st.markdown("**Number of job ads within female-dominated disciplines categorized by appealingness**")
+        st.markdown("**Female-dominated disciplines**")
         image = Image.open('Images/appealingness_dis_fem.png')
         st.image(image, use_column_width=True, output_format='png')
 
