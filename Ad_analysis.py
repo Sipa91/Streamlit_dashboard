@@ -155,7 +155,7 @@ def page():
              # Load trained models
             xgboost = joblib.load('models/xgboost.pkl')
             logreg_NLP = joblib.load('models/logreg_NLP.pkl')
-            final_model = joblib.load('final_model.pkl')
+            final_model = joblib.load('models/final_model.pkl')
 
 
             # Make predictions with thee different pre-trained models
