@@ -2,7 +2,7 @@ spacy
 https://github.com/explosion/spacy-models/releases/download/de_core_news_sm-2.2.0/de_core_news_sm-2.2.0.tar.gz #egg=de_core_news_sm==2.2.0
 streamlit
 sklearn
-sklearn.feature_extraction.text
+#sklearn.feature_extraction.text
 xgboost
 wordcloud
 joblib
