@@ -1,5 +1,6 @@
 spacy
-https://github.com/explosion/spacy-models/releases/download/de_core_news_sm-2.3.1/de_core_web_sm-2.3.1.tar.gz
+#https://github.com/explosion/spacy-models/releases/download/de_core_news_sm-2.3.1/de_core_web_sm-2.3.1.tar.gz
+spacy download de_core_news_sm
 streamlit
 sklearn
 sklearn.feature_extraction.text
