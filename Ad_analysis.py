@@ -2,7 +2,8 @@
 import streamlit as st
 import matplotlib.pyplot as plt
 import matplotlib
-from matplotlib.backends.backend_agg import RendererAgg_lock = RendererAgg.lock
+from matplotlib.backends.backend_agg import RendererAgg
+_lock = RendererAgg.lock
 import pandas as pd
 import re, string, unicodedata
 import nltk
