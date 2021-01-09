@@ -68,7 +68,7 @@ def create_xtest_features(df):
 
 def create_xtest_NLP(df):
     df_NLP = add_processing_columns(df) #ad_tokens, ad_cleaned
-    vect_ltf = joblib.load('/models/vect_ltf.pkl')
+    vect_ltf = joblib.load('models/vect_ltf.pkl')
     xtest_NLP = vect_ltf.transform(df_NLP['ad_cleaned'])
     return xtest_NLP
 
@@ -153,9 +153,9 @@ def page():
             
             # Load trained models
              # Load trained models
-            xgboost = joblib.load('/models/xgboost.pkl')
-            logreg_NLP = joblib.load('/models/logreg_NLP.pkl')
-            final_model = joblib.load('/final_model.pkl')
+            xgboost = joblib.load('models/xgboost.pkl')
+            logreg_NLP = joblib.load('models/logreg_NLP.pkl')
+            final_model = joblib.load('final_model.pkl')
 
 
             # Make predictions with thee different pre-trained models
