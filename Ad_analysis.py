@@ -11,7 +11,7 @@ import spacy
 from bs4 import BeautifulSoup
 from wordcloud import WordCloud, STOPWORDS
 from PIL import Image
-import pickle
+import joblib
 from sklearn.feature_extraction.text import TfidfVectorizer
 from wordlists import workingtime_words, feminine_coded_words, masculine_coded_words, salary_words, workingtime_words, family_words, homeoffice_words, safety_words, health_words, travel_words
 from dataprep import strip_html, remove_between_square_brackets, denoise_text, remove_punctuation, clean_ad, tokanize, create_string, make_wordcloud, find_workingtime, find_family_benefits, find_homeoffice, find_safety_words, find_health_words, find_and_count_coded_words, add_genderword_columns, find_salary, add_salary_columns, add_workingtime_columns, add_family_columns, add_homeoffice_columns, add_safety_columns, add_health_column, add_target, categorize_target, add_processing_columns, ad_length, find_travel_words, add_traveling_columns, drop_columns, add_spacy_columns, add_lemmatized_unpacked_column
