@@ -38,17 +38,12 @@ conda create --name jobads python=3.7
 conda install -n jobads ipytest==6.1.1
 conda install -n jobads ipython
 conda install -n jobads scikit-learn
-conda install -n jobads tensorflow
-conda install -n jobads -c conda-forge dash
 conda install -n jobads nltk
 conda install -n jobads bs4
 conda install -n jobads spacy
 conda install -n jobads -c conda-forge wordcloud
 conda install -c conda-forge xgboost 
-conda install -c conda-forge statsmodels
-conda install -c conda-forge keras
-pip install langdetect
-pip install spacy
+pip install streamlit 
 python -m spacy download de_core_news_sm
 ```
 
