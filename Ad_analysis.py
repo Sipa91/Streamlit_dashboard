@@ -152,8 +152,8 @@ def page():
             xtest_NLP = create_xtest_NLP(df)
             
             # Load trained models
-             # Load trained models
-            xgboost = joblib.load('models/xgboost.pkl')
+            # Load trained models
+            #xgboost = joblib.load('models/xgboost.pkl')
             logreg_NLP = joblib.load('models/logreg_NLP.pkl')
             final_model = joblib.load('models/final_model.pkl')
 
