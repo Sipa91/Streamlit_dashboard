@@ -8,3 +8,4 @@ streamlit==0.74.1
 beautifulsoup4==4.9.3
 Pillow==8.1.0
 scikit_learn==0.24.0
+joblib
