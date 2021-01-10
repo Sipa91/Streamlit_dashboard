@@ -9,4 +9,5 @@ joblib==0.17.0
 beautifulsoup4==4.9.3
 Pillow==8.1.0
 scikit_learn==0.24.0
+xgboost==1.1.1
 https://github.com/explosion/spacy-models/releases/download/de_core_news_sm-2.2.0/de_core_news_sm-2.2.0.tar.gz
