@@ -66,12 +66,12 @@ def page():
     """)
     col1, col2 = st.beta_columns(2)
     with col1:
-        st.markdown("**Number of male words within not appealing versus appealing job ads**")
+        st.markdown("**Male words**")
         image = Image.open('Images/mwords_count.png')
         st.image(image, use_column_width=True, output_format='png')
 
     with col2:
-        st.markdown("**Number of female words within not appealing versus appealing job ads**")
+        st.markdown("**Female words**")
         image = Image.open('Images/fwords_count.png')
         st.image(image, use_column_width=True, output_format='png')
 
