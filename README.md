@@ -23,7 +23,7 @@ We have optimized some scripts for our interactive WebApp. We created a separate
 You can find more information about data preprocessing and modeling [here](https://github.com/PetraPi/datascience-Capstone_Job_Ads).
 
 # Webapp & Deployment
-We used Streamlit to create this Webapp. Within this application you can copy and paste a self chosen German job ad and see which female versus male words and which female-oriented benefits are included, as well as your job ad is rather appealing to women or not.  
+We used Streamlit to create this [Webapp](https://share.streamlit.io/sipa91/streamlit_dashboard/main/Main.py). Within this application you can copy and paste a self chosen German job ad and see which female versus male words and which female-oriented benefits are included, as well as your job ad is rather appealing to women or not.  
 
 
 # Acknowledgement
@@ -43,6 +43,7 @@ conda install -n jobads bs4
 conda install -n jobads spacy
 conda install -n jobads -c conda-forge wordcloud
 conda install -c conda-forge xgboost 
+conda install -n jobads joblib
 pip install streamlit 
 python -m spacy download de_core_news_sm
 ```
